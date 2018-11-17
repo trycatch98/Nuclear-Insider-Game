@@ -36,6 +36,8 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     private var heart = 5
     private val heartImgArray = mutableListOf<AppCompatImageView>()
     private var currentQuestion = 0
+    private var passCount = 0
+    private lateinit var nickname: String
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,22 +61,8 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
         heartImgArray.add(heart_img4)
         heartImgArray.add(heart_img5)
 
-        error { idArray.toString().substring(1, idArray.toString().length - 1) }
-        api.getQuiz(idArray.toString().substring(1, idArray.toString().length - 1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete {
-                    startQuiz()
-                }
-                .flatMap {
-                    it.toObservable()
-                }
-                .subscribe({
-                    idArray.add(it.id)
-                    quizList.add(it)
-                }){
-                    it.printStackTrace()
-                }
+        initBtn()
+        getQuiz()
 
         MobileAds.initialize(context, "ca-app-pub-3940256099942544/5224354917")
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
@@ -82,8 +70,29 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
         loadRewardedVideoAd()
     }
 
-    private fun startQuiz() {
-        changeQuiz()
+    private fun getQuiz() =
+            api.getQuiz("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                changeQuiz()
+            }
+            .doOnError {
+                (activity as MainActivity).gameOver("${currentQuestion + 1}")
+            }
+            .flatMap {
+                if(it.isEmpty())
+                    throw RuntimeException("end of quiz")
+                it.toObservable()
+            }
+            .subscribe({
+                idArray.add(it.id)
+                quizList.add(it)
+            }){
+                it.printStackTrace()
+            }
+
+    private fun initBtn() {
         hint_btn.clicks()
                 .map {
                     if(hintCount<=0)
@@ -116,7 +125,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                     }
                     else {
                         if(--heart <= 0)
-                            (activity as MainActivity).gameOver()
+                            (activity as MainActivity).gameOver("${currentQuestion + 1}")
                         toast("틀렸습니다.")
                         answer_text.setText("")
                         Glide.with(context!!)
@@ -126,16 +135,29 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 }){
                     it.printStackTrace()
                 }
+
+        pass_view.clicks()
+                .subscribe({
+                    passCount++
+                    changeQuiz()
+                }){
+                    it.printStackTrace()
+                }
     }
 
     private fun changeQuiz(){
-        order_text.text = "Q${currentQuestion + 1}."
-        quizList[currentQuestion].run {
-            category_text.text = category
-            Glide.with(context!!)
-                    .load("http://119.194.163.190:8080/$imagePath")
-                    .into(emoji_view)
-            hintList = hints
+        if(currentQuestion >= quizList.size) {
+            getQuiz()
+        }
+        else {
+            order_text.text = "Q${currentQuestion + passCount + 1}."
+            quizList[currentQuestion].run {
+                category_text.text = category
+                Glide.with(context!!)
+                        .load("http://119.194.163.190:8080/$imagePath")
+                        .into(emoji_view)
+                hintList = hints
+            }
         }
     }
 

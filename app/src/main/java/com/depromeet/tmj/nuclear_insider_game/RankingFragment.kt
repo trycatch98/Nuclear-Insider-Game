@@ -8,34 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 
 
-class RankingFragment : Fragment() {
-    private lateinit var listener: Listner
+class RankingFragment : Fragment(), AnkoLogger {
+    private lateinit var nickname: String
+    private lateinit var score: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_ranking, container, false)
-    }
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Listner) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement Listner")
+        arguments?.apply {
+            nickname = getString("nickname")
+            score = getString("score")
         }
+        error { "$nickname, $score" }
+        return inflater.inflate(R.layout.fragment_ranking, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         changeStatusBarColor()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     private fun changeStatusBarColor() {
@@ -45,10 +38,6 @@ class RankingFragment : Fragment() {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = ContextCompat.getColor(context!!, R.color.background)
         }
-    }
-
-
-    interface Listner {
     }
 
 }
