@@ -11,13 +11,21 @@ import android.view.WindowManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_ranking.*
 import org.jetbrains.anko.Android
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 
 
-class RankingFragment : Fragment() {
+class RankingFragment : Fragment(), AnkoLogger {
+    private lateinit var nickname: String
+    private lateinit var score: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
+        arguments?.apply {
+            nickname = getString("nickname")
+            score = getString("score")
+        }
+        error { "$nickname, $score" }
 
         val data = mapOf("answerNum" to 1, "nickname" to "adsada")
         Api.create().putScore(data)
