@@ -142,6 +142,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
         pass_view.clicks()
                 .subscribe({
                     passCount++
+                    hintCount = 3
                     changeQuiz()
                 }){
                     it.printStackTrace()
