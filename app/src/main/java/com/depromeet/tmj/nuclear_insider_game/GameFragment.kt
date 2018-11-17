@@ -119,7 +119,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
 
         confirm_btn.clicks()
                 .subscribe({
-                    if(quizList[currentQuestion].solution == answer_text.text.toString()) {
+                    if(quizList[currentQuestion + passCount].solution.replace(" ", "") == answer_text.text.toString().replace(" ", "")) {
                         currentQuestion++
                         clearHint()
                         changeQuiz()
