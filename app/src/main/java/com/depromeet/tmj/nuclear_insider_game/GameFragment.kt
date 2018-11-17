@@ -116,7 +116,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                     }
                     else {
                         if(--heart <= 0)
-                            activity?.finish()
+                            (activity as MainActivity).gameOver()
                         toast("틀렸습니다.")
                         answer_text.setText("")
                         Glide.with(context!!)

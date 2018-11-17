@@ -18,4 +18,9 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.fragment, GameFragment()).commit()
     }
+
+    fun gameOver() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment, GameOverDialogFragment()).commit()
+    }
 }
