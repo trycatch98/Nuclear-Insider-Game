@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_ranking.*
+
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
+
 
 class RankingFragment : Fragment(), AnkoLogger {
     private lateinit var nickname: String
