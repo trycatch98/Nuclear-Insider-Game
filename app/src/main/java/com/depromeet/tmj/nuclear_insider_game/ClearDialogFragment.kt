@@ -15,7 +15,16 @@ import java.util.concurrent.TimeUnit
 
 class ClearDialogFragment : DialogFragment() {
     private val compositeDisposable = CompositeDisposable()
-<<<<<<< HEAD
+    private lateinit var listener: Listener
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is Listener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement Listener")
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -34,8 +43,6 @@ class ClearDialogFragment : DialogFragment() {
             }
         }
     }
-=======
->>>>>>> 282ba8fa5f09bf3ecf2031a1516136b073ccdac3
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,13 +64,8 @@ class ClearDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-<<<<<<< HEAD
                     (activity as MainActivity).showRanking()
-                })
-    }
-=======
->>>>>>> 282ba8fa5f09bf3ecf2031a1516136b073ccdac3
-
+                    listener.onDismiss()
                 })
     }
 }

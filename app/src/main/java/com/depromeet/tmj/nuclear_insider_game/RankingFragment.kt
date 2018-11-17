@@ -8,34 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-<<<<<<< HEAD
+import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
-
-
-class RankingFragment : Fragment(), AnkoLogger {
-    private lateinit var nickname: String
-    private lateinit var score: String
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        arguments?.apply {
-            nickname = getString("nickname")
-            score = getString("score")
-        }
-        error { "$nickname, $score" }
-=======
-import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_ranking.*
-import org.jetbrains.anko.Android
-
 
 class RankingFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-
         val data = mapOf("answerNum" to 1, "nickname" to "adsada")
         Api.create().putScore(data)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,7 +26,7 @@ class RankingFragment : Fragment() {
                         // TODO : 내 점수 출력
                     }
                 }
->>>>>>> 282ba8fa5f09bf3ecf2031a1516136b073ccdac3
+
         return inflater.inflate(R.layout.fragment_ranking, container, false)
     }
 
@@ -63,8 +43,4 @@ class RankingFragment : Fragment() {
             window.statusBarColor = ContextCompat.getColor(context!!, R.color.background)
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 282ba8fa5f09bf3ecf2031a1516136b073ccdac3
 }

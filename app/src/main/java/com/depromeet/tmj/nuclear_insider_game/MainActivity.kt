@@ -19,13 +19,7 @@ class MainActivity : AppCompatActivity(), StartFragment.Listener {
     override fun setNicknameAndStartGame(nickname: String) {
         this.nickname = nickname
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment,
-                        GameFragment().apply {
-                            arguments = Bundle().apply {
-                                putString("nickname", nickname)
-                            }
-                        }
-                )
+                .replace(R.id.fragment, GameFragment())
                 .commitAllowingStateLoss()
     }
 
