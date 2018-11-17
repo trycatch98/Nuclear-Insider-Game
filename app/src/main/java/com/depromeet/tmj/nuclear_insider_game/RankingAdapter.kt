@@ -26,12 +26,12 @@ class RankingAdapter(val context: Context, val data: List<RankingDataModel.Score
     }
 
     inner class RankingViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvRankg = view.tv_rank
-        val tvNickname = view.tv_nick_name
-        val tvScore = view.tv_answer
+        private val tvRank = view.tv_rank
+        private val tvNickname = view.tv_nick_name
+        private val tvScore = view.tv_answer
 
         fun bind(data: RankingDataModel.Score, position: Int) {
-            tvRankg.text = (position + 1).toString()
+            tvRank.text = (position + 1).toString()
             tvNickname.text = data.nickName
             tvScore.text = data.answerNum.toString()
         }

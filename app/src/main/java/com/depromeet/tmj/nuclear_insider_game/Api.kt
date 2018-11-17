@@ -5,17 +5,15 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface Api {
     @GET("quiz")
     fun getQuiz(@Query("selectedIds") selectedIds: String): Observable<List<QuizDataModel>>
 
     @POST("Score")
-    fun putScore(@Body map: Map<String, Any>): Observable<RankingDataModel.RankingModel>
+    @Headers("Content-Type: application/json")
+    fun putScore(@Body data: Map<String, String>): Observable<RankingDataModel.RankingModel>
 
     companion object {
         fun create(): Api = Retrofit.Builder().apply {
