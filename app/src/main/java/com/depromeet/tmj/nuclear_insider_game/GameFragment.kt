@@ -36,8 +36,6 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     private var heart = 5
     private val heartImgArray = mutableListOf<AppCompatImageView>()
     private var currentQuestion = 0
-    private var passCount = 0
-    private lateinit var nickname: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_game, container, false)
@@ -127,6 +125,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 }){
                     it.printStackTrace()
                 }
+<<<<<<< HEAD
     }
 
     private fun getQuiz() =
@@ -180,6 +179,21 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 }
     }
 
+=======
+    }
+
+    private fun changeQuiz(){
+        order_text.text = "Q${currentQuestion + 1}."
+        quizList[currentQuestion].run {
+            category_text.text = category
+            Glide.with(context!!)
+                    .load("http://119.194.163.190:8080/$imagePath")
+                    .into(emoji_view)
+            hintList = hints
+        }
+    }
+
+>>>>>>> parent of f80809d... 화면 전환
     override fun onPause() {
         super.onPause()
         mRewardedVideoAd.pause(context)

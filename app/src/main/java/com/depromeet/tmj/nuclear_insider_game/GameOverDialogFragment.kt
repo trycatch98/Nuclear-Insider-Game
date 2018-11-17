@@ -16,6 +16,16 @@ import java.util.concurrent.TimeUnit
 
 class GameOverDialogFragment : DialogFragment() {
     private val compositeDisposable = CompositeDisposable()
+    private lateinit var listener: Listener
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is Listener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement Listener")
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -55,8 +65,14 @@ class GameOverDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    (activity as MainActivity).showRanking()
+                    listener.onDismiss()
                 })
     }
 
+<<<<<<< HEAD
+=======
+    interface Listener {
+        fun onDismiss()
+    }
+>>>>>>> parent of f80809d... 화면 전환
 }

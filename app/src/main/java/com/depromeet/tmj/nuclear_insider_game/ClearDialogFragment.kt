@@ -64,7 +64,10 @@ class ClearDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+<<<<<<< HEAD
                     (activity as MainActivity).showRanking()
+=======
+>>>>>>> parent of f80809d... 화면 전환
                     listener.onDismiss()
                 })
     }

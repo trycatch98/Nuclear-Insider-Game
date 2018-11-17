@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+<<<<<<< HEAD
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
@@ -26,13 +27,36 @@ class RankingFragment : Fragment() {
                         // TODO : 내 점수 출력
                     }
                 }
+=======
+
+
+class RankingFragment : Fragment() {
+    private lateinit var listener: Listner
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+>>>>>>> parent of f80809d... 화면 전환
 
         return inflater.inflate(R.layout.fragment_ranking, container, false)
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is Listner) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement Listner")
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         changeStatusBarColor()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
     }
 
     private fun changeStatusBarColor() {
@@ -43,4 +67,12 @@ class RankingFragment : Fragment() {
             window.statusBarColor = ContextCompat.getColor(context!!, R.color.background)
         }
     }
+<<<<<<< HEAD
+=======
+
+
+    interface Listner {
+    }
+
+>>>>>>> parent of f80809d... 화면 전환
 }
