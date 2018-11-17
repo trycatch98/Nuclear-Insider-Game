@@ -121,7 +121,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 .subscribe({
                     if(quizList[currentQuestion].solution == answer_text.text.toString()) {
                         currentQuestion++
-                        hintCount = 3
+                        clearHint()
                         changeQuiz()
                         answer_text.setText("")
                         toast("정답입니다.")
@@ -142,11 +142,23 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
         pass_view.clicks()
                 .subscribe({
                     passCount++
-                    hintCount = 3
+                    clearHint()
                     changeQuiz()
                 }){
                     it.printStackTrace()
                 }
+    }
+
+    private fun clearHint(){
+        hintCount = 3
+        hintImgArray.forEach {
+            Glide.with(context!!)
+                    .load(R.drawable.hint_icon)
+                    .into(it)
+        }
+        hintViewArray.forEach {
+            it.visibility = View.GONE
+        }
     }
 
     private fun changeQuiz(){
