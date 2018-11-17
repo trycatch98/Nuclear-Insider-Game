@@ -2,6 +2,8 @@ package com.depromeet.tmj.nuclear_insider_game
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.reward.RewardedVideoAd
 
 class MainActivity : AppCompatActivity() {
 
@@ -9,8 +11,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, StartFragment())
-                .commitAllowingStateLoss()
+        initUi()
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917")
+    }
+
+    private fun initUi() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment, GameFragment()).commit()
     }
 }
