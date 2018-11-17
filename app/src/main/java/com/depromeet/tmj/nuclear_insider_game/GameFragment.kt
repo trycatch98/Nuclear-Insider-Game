@@ -80,7 +80,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 changeQuiz()
             }
             .doOnError {
-                (activity as MainActivity).gameOver("$currentQuestion")
+                (activity as MainActivity).gameFinish("${currentQuestion + 1}")
             }
             .flatMap {
                 if(it.isEmpty())
@@ -128,7 +128,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                     }
                     else {
                         if(--heart <= 0)
-                            (activity as MainActivity).gameOver("${currentQuestion + 1}")
+                            (activity as MainActivity).gameOver("$currentQuestion")
                         toast("틀렸습니다.")
                         answer_text.setText("")
                         Glide.with(context!!)
