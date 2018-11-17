@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initUi()
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544/5224354917")
     }
 
     private fun initUi() {

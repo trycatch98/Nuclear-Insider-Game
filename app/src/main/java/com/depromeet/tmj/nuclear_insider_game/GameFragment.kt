@@ -7,29 +7,35 @@ import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.toObservable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_game.*
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.noButton
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.yesButton
+import org.jetbrains.anko.support.v4.toast
 
-class GameFragment : Fragment(), RewardedVideoAdListener {
-
-    private val hintArray = listOf(
-            "#게임",
-            "#레오나르도디카프리오",
-            "#영화"
-    )
+class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
+    private val api by lazy {
+        Api.create()
+    }
+    private lateinit var hintList: List<String>
+    private val idArray = mutableListOf<String>()
     private val hintViewArray = mutableListOf<AppCompatTextView>()
     private val hintImgArray = mutableListOf<AppCompatImageView>()
     private var hintCount = 3
     private lateinit var mRewardedVideoAd: RewardedVideoAd
+    private val quizList = mutableListOf<QuizDataModel>()
+    private var heart = 5
+    private val heartImgArray = mutableListOf<AppCompatImageView>()
+    private var currentQuestion = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,7 +44,6 @@ class GameFragment : Fragment(), RewardedVideoAdListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        emoji_view.imageResource = R.drawable.app_logo
 
         hintViewArray.add(hint_text1)
         hintViewArray.add(hint_text2)
@@ -48,7 +53,42 @@ class GameFragment : Fragment(), RewardedVideoAdListener {
         hintImgArray.add(hint_img2)
         hintImgArray.add(hint_img3)
 
+        heartImgArray.add(heart_img1)
+        heartImgArray.add(heart_img2)
+        heartImgArray.add(heart_img3)
+        heartImgArray.add(heart_img4)
+        heartImgArray.add(heart_img5)
+
+        error { idArray.toString().substring(1, idArray.toString().length - 1) }
+        api.getQuiz(idArray.toString().substring(1, idArray.toString().length - 1))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    startQuiz()
+                }
+                .flatMap {
+                    it.toObservable()
+                }
+                .subscribe({
+                    idArray.add(it.id)
+                    quizList.add(it)
+                }){
+                    it.printStackTrace()
+                }
+
+        MobileAds.initialize(context, "ca-app-pub-3940256099942544/5224354917")
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
+        mRewardedVideoAd.rewardedVideoAdListener = this
+        loadRewardedVideoAd()
+    }
+
+    private fun startQuiz() {
+        changeQuiz()
         hint_btn.clicks()
+                .map {
+                    if(hintCount<=0)
+                        toast("힌트가 없습니다.")
+                }
                 .filter {
                     hintCount > 0
                 }
@@ -61,15 +101,42 @@ class GameFragment : Fragment(), RewardedVideoAdListener {
                         }
                         noButton {  }
                     }.show()
-
                 }){
                     it.printStackTrace()
                 }
 
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
-        mRewardedVideoAd.rewardedVideoAdListener = this
-        loadRewardedVideoAd()
+        confirm_btn.clicks()
+                .subscribe({
+                    if(quizList[currentQuestion].solution == answer_text.text.toString()) {
+                        currentQuestion++
+                        hintCount = 3
+                        changeQuiz()
+                        answer_text.setText("")
+                        toast("정답입니다.")
+                    }
+                    else {
+                        if(--heart <= 0)
+                            activity?.finish()
+                        toast("틀렸습니다.")
+                        answer_text.setText("")
+                        Glide.with(context!!)
+                                .load(R.drawable.heart_broken_icon)
+                                .into(heartImgArray[heart])
+                    }
+                }){
+                    it.printStackTrace()
+                }
+    }
 
+    private fun changeQuiz(){
+        order_text.text = "Q${currentQuestion + 1}."
+        quizList[currentQuestion].run {
+            category_text.text = category
+            Glide.with(context!!)
+                    .load("http://119.194.163.190:8080/$imagePath")
+                    .into(emoji_view)
+            hintList = hints
+        }
     }
 
     override fun onPause() {
@@ -84,6 +151,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        mRewardedVideoAd.rewardedVideoAdListener = null
         mRewardedVideoAd.destroy(context)
     }
 
@@ -105,10 +173,12 @@ class GameFragment : Fragment(), RewardedVideoAdListener {
 
     override fun onRewarded(p0: RewardItem?) {
         hintViewArray.get(3 - hintCount).run {
-            text = hintArray.get(3 - hintCount)
+            text = hintList[3 - hintCount]
             visibility = View.VISIBLE
         }
-        hintImgArray.get(--hintCount).imageResource = R.drawable.hint_broken_icon
+        Glide.with(context!!)
+                .load(R.drawable.hint_broken_icon)
+                .into(hintImgArray[--hintCount])
     }
 
     override fun onRewardedVideoStarted() {
