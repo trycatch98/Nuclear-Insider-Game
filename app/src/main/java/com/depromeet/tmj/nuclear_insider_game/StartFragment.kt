@@ -1,6 +1,7 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,16 @@ import java.util.regex.Pattern
 
 class StartFragment : Fragment() {
     private val compositeDisposable = CompositeDisposable()
+    private lateinit var listener: Listener
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is Listener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement Listener")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,8 +56,8 @@ class StartFragment : Fragment() {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    if(validate(et_nick_name.text.toString())) {
-                        // TODO: 게임 시작으로 이동
+                    if (validate(et_nick_name.text.toString())) {
+                        listener.setNicknameAndStartGame(et_nick_name.text.toString())
                     } else {
                         Toast.makeText(context, "올바르지 않은 닉네임 형태입니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -54,8 +65,12 @@ class StartFragment : Fragment() {
     }
 
     private fun validate(nickname: String): Boolean {
-        val validator = "/^[가-힣a-zA-Z]+\$/;"
+        val validator = "^[가-힣a-zA-Z]+\$"
 
         return nickname.length <= 12 && Pattern.matches(validator, nickname)
+    }
+
+    interface Listener {
+        fun setNicknameAndStartGame(nickname: String)
     }
 }
