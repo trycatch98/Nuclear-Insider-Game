@@ -4,7 +4,7 @@
     <string name="start_title">닉네임을\n입력해주세요</string>
     <string name="hint_nick_name">한글 혹은 영문 12자이내로 입력해 주세요.</string>
     <string name="start">시작하기</string>
-    <string name="game_over">GAME OVEr</string>
+    <string name="game_over">GAME OVER</string>
     <string name="game_clear">GAME CLEAR</string>
     <string name="ranking_title">나는\n몇등이지?</string>
     <string name="regame">다시 게임하기</string>

@@ -15,34 +15,6 @@ import java.util.concurrent.TimeUnit
 
 class ClearDialogFragment : DialogFragment() {
     private val compositeDisposable = CompositeDisposable()
-    private lateinit var listener: Listener
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement Listener")
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // 팝업창 배경 투명색 설정 및 전체팝업 설정
-        val dialog = dialog
-        context?.let { context ->
-            val width = ViewGroup.LayoutParams.MATCH_PARENT
-            val height = ViewGroup.LayoutParams.MATCH_PARENT
-            val bgDialog = ColorDrawable(ContextCompat.getColor(context, R.color.clear_background))
-
-            if (dialog.window != null) {
-                dialog.window!!.setLayout(width, height)
-                bgDialog.alpha = 80
-                dialog.window!!.setBackgroundDrawable(bgDialog)
-                dialog.setOnKeyListener { _, _, _ -> true }
-            }
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -64,11 +36,7 @@ class ClearDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    listener.onDismiss()
-                })
-    }
 
-    interface Listener {
-        fun onDismiss()
+                })
     }
 }
