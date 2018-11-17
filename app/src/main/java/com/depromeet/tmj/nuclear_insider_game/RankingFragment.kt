@@ -37,6 +37,7 @@ class RankingFragment : Fragment(), AnkoLogger {
                         // TODO : 내 점수 출력
                     }
                 }
+
         return inflater.inflate(R.layout.fragment_ranking, container, false)
     }
 
