@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
@@ -86,6 +88,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 it.toObservable()
             }
             .subscribe({
+                error { it }
                 idArray.add(it.id)
                 quizList.add(it)
             }){
@@ -146,15 +149,18 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     }
 
     private fun changeQuiz(){
-        if(currentQuestion >= quizList.size) {
+        if(currentQuestion + passCount == quizList.size ) {
             getQuiz()
         }
         else {
             order_text.text = "Q${currentQuestion + passCount + 1}."
-            quizList[currentQuestion].run {
+            quizList[currentQuestion + passCount].run {
                 category_text.text = category
                 Glide.with(context!!)
                         .load("http://119.194.163.190:8080/$imagePath")
+                        .apply(RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true))
                         .into(emoji_view)
                 hintList = hints
             }
