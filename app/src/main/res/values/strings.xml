@@ -7,4 +7,8 @@
     <string name="game_over">GAME OVEr</string>
     <string name="game_clear">GAME CLEAR</string>
     <string name="ranking_title">나는\n몇등이지?</string>
+    <string name="regame">다시 게임하기</string>
+    <string name="ranking">랭킹</string>
+    <string name="nickname">닉네임</string>
+    <string name="answer">정답 개수</string>
 </resources>

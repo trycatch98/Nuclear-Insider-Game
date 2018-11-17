@@ -5,7 +5,8 @@ import android.os.Bundle
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardedVideoAd
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), StartFragment.Listener {
+    private lateinit var nickname: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,9 +15,17 @@ class MainActivity : AppCompatActivity() {
         initUi()
     }
 
+    override fun setNicknameAndStartGame(nickname: String) {
+        this.nickname = nickname
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment, GameFragment())
+                .commitAllowingStateLoss()
+    }
+
     private fun initUi() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, GameFragment()).commit()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment, StartFragment())
+                .commitAllowingStateLoss()
     }
 
     fun gameOver() {

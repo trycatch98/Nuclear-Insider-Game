@@ -8,4 +8,5 @@
     <color name="over_background">#cc000000</color>
     <color name="clear_background">#ccffde03</color>
     <color name="transparent">#00000000</color>
+    <color name="black_text">#333333</color>
 </resources>
