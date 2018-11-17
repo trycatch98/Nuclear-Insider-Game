@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class GameOverDialogFragment : DialogFragment() {
     private val compositeDisposable = CompositeDisposable()
+<<<<<<< HEAD
 
     override fun onStart() {
         super.onStart()
@@ -34,6 +34,8 @@ class GameOverDialogFragment : DialogFragment() {
             }
         }
     }
+=======
+>>>>>>> 282ba8fa5f09bf3ecf2031a1516136b073ccdac3
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,7 +57,14 @@ class GameOverDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+<<<<<<< HEAD
                     (activity as MainActivity).showRanking()
                 })
     }
+=======
+
+                })
+    }
+
+>>>>>>> 282ba8fa5f09bf3ecf2031a1516136b073ccdac3
 }
