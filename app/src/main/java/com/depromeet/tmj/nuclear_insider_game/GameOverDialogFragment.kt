@@ -36,8 +36,7 @@ class GameOverDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-
+                    (activity as MainActivity).showRanking()
                 })
     }
-
 }
