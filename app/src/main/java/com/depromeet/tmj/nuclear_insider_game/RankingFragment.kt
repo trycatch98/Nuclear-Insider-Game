@@ -1,6 +1,5 @@
 package com.depromeet.tmj.nuclear_insider_game
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -10,10 +9,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_ranking.*
-import org.jetbrains.anko.Android
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
-
 
 class RankingFragment : Fragment(), AnkoLogger {
     private lateinit var nickname: String
@@ -21,6 +18,7 @@ class RankingFragment : Fragment(), AnkoLogger {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         arguments?.apply {
             nickname = getString("nickname")
             score = getString("score")
