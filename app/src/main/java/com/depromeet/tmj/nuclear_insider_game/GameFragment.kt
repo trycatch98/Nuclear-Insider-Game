@@ -40,7 +40,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     private var currentQuestion = 0
     private var passCount = 0
     private lateinit var nickname: String
-
+    private val appKey = "ca-app-pub-1333902887702426~1868573181"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_game, container, false)
@@ -66,7 +66,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
         initBtn()
         getQuiz()
 
-        MobileAds.initialize(context, "ca-app-pub-3940256099942544/5224354917")
+        MobileAds.initialize(context, appKey)
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
         mRewardedVideoAd.rewardedVideoAdListener = this
         loadRewardedVideoAd()
@@ -229,7 +229,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     }
 
     private fun loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd(appKey,
                 AdRequest.Builder().build())
     }
 }
