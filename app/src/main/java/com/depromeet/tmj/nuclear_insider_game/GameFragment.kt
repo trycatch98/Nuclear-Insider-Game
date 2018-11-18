@@ -40,7 +40,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     private var currentQuestion = 0
     private var passCount = 0
     private lateinit var nickname: String
-    private val appKey = "ca-app-pub-1333902887702426~1868573181"
+    private val appKey = "ca-app-pub-1333902887702426/6233170081"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_game, container, false)
