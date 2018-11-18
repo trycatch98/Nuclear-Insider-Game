@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
@@ -36,6 +38,9 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     private var heart = 5
     private val heartImgArray = mutableListOf<AppCompatImageView>()
     private var currentQuestion = 0
+    private var passCount = 0
+    private lateinit var nickname: String
+    private val appKey = "ca-app-pub-1333902887702426~1868573181"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_game, container, false)
@@ -58,31 +63,39 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
         heartImgArray.add(heart_img4)
         heartImgArray.add(heart_img5)
 
-        error { idArray.toString().substring(1, idArray.toString().length - 1) }
-        api.getQuiz(idArray.toString().substring(1, idArray.toString().length - 1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete {
-                    startQuiz()
-                }
-                .flatMap {
-                    it.toObservable()
-                }
-                .subscribe({
-                    idArray.add(it.id)
-                    quizList.add(it)
-                }){
-                    it.printStackTrace()
-                }
+        initBtn()
+        getQuiz()
 
-        MobileAds.initialize(context, "ca-app-pub-3940256099942544/5224354917")
+        MobileAds.initialize(context, appKey)
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
         mRewardedVideoAd.rewardedVideoAdListener = this
         loadRewardedVideoAd()
     }
 
-    private fun startQuiz() {
-        changeQuiz()
+    private fun getQuiz() =
+            api.getQuiz(idArray.toString().substring(1, idArray.toString().length - 1))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete {
+                        changeQuiz()
+                    }
+                    .doOnError {
+                        (activity as MainActivity).gameFinish("${currentQuestion + 1}")
+                    }
+                    .flatMap {
+                        if(it.isEmpty())
+                            throw RuntimeException("end of quiz")
+                        it.toObservable()
+                    }
+                    .subscribe({
+                        error { it }
+                        idArray.add(it.id)
+                        quizList.add(it)
+                    }){
+                        it.printStackTrace()
+                    }
+
+    private fun initBtn() {
         hint_btn.clicks()
                 .map {
                     if(hintCount<=0)
@@ -106,16 +119,16 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
 
         confirm_btn.clicks()
                 .subscribe({
-                    if(quizList[currentQuestion].solution == answer_text.text.toString()) {
+                    if(quizList[currentQuestion + passCount].solution.replace(" ", "") == answer_text.text.toString().replace(" ", "")) {
                         currentQuestion++
-                        hintCount = 3
+                        clearHint()
                         changeQuiz()
                         answer_text.setText("")
                         toast("정답입니다.")
                     }
                     else {
                         if(--heart <= 0)
-                            (activity as MainActivity).gameOver()
+                            (activity as MainActivity).gameOver("$currentQuestion")
                         toast("틀렸습니다.")
                         answer_text.setText("")
                         Glide.with(context!!)
@@ -125,57 +138,46 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
                 }){
                     it.printStackTrace()
                 }
-    }
 
-    private fun getQuiz() =
-            api.getQuiz("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30")
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnComplete {
-                        changeQuiz()
-                    }
-                    .doOnError {
-                        (activity as MainActivity).gameOver("${currentQuestion + 1}")
-                    }
-                    .flatMap {
-                        if(it.isEmpty())
-                            throw RuntimeException("end of quiz")
-                        it.toObservable()
-                    }
-                    .subscribe({
-                        idArray.add(it.id)
-                        quizList.add(it)
-                    }){
-                        it.printStackTrace()
-                    }
-
-    private fun changeQuiz(){
-        order_text.text = "Q${currentQuestion + 1}."
-        quizList[currentQuestion].run {
-            category_text.text = category
-            Glide.with(context!!)
-                    .load("http://119.194.163.190:8080/$imagePath")
-                    .into(emoji_view)
-            hintList = hints
-        }
-    }
-
-    private fun initBtn() {
-        hint_btn.clicks()
-                .map {
-                    if (--heart <= 0)
-                        (activity as MainActivity).gameOver("${currentQuestion + 1}")
-                    toast("틀렸습니다.")
-                    answer_text.setText("")
-                    Glide.with(context!!)
-                }
         pass_view.clicks()
                 .subscribe({
                     passCount++
+                    clearHint()
                     changeQuiz()
                 }){
                     it.printStackTrace()
                 }
+    }
+
+    private fun clearHint(){
+        hintCount = 3
+        hintImgArray.forEach {
+            Glide.with(context!!)
+                    .load(R.drawable.hint_icon)
+                    .into(it)
+        }
+        hintViewArray.forEach {
+            it.visibility = View.GONE
+        }
+    }
+
+    private fun changeQuiz(){
+        if(currentQuestion + passCount == quizList.size ) {
+            getQuiz()
+        }
+        else {
+            order_text.text = "Q${currentQuestion + passCount + 1}."
+            quizList[currentQuestion + passCount].run {
+                category_text.text = category
+                Glide.with(context!!)
+                        .load("https://nuclear-insider-game-server.herokuapp.com//$imagePath")
+                        .apply(RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true))
+                        .into(emoji_view)
+                hintList = hints
+            }
+        }
     }
 
     override fun onPause() {
@@ -227,7 +229,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
     }
 
     private fun loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd(appKey,
                 AdRequest.Builder().build())
     }
 }
