@@ -170,7 +170,7 @@ class GameFragment : Fragment(), RewardedVideoAdListener, AnkoLogger {
             quizList[currentQuestion + passCount].run {
                 category_text.text = category
                 Glide.with(context!!)
-                        .load("http://119.194.163.190:8080/$imagePath")
+                        .load("https://nuclear-insider-game-server.herokuapp.com//$imagePath")
                         .apply(RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true))

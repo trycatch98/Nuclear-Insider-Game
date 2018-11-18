@@ -17,7 +17,7 @@ interface Api {
 
     companion object {
         fun create(): Api = Retrofit.Builder().apply {
-            baseUrl("http://119.194.163.190:8080/")
+            baseUrl("https://nuclear-insider-game-server.herokuapp.com/")
             client(OkHttpClient.Builder().build())
             addConverterFactory(GsonConverterFactory.create())
             addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
