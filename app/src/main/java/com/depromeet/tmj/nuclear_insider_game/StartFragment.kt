@@ -11,7 +11,6 @@ import com.depromeet.tmj.nuclear_insider_game.shared.BaseFragment
 import com.depromeet.tmj.nuclear_insider_game.shared.THROTTLE_TIME
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_start.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
