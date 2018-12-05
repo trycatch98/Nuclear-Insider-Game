@@ -1,61 +1,68 @@
 package com.depromeet.tmj.nuclear_insider_game
 
+import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import com.depromeet.tmj.nuclear_insider_game.shared.BaseFragment
+import com.depromeet.tmj.nuclear_insider_game.shared.THROTTLE_TIME
 import com.jakewharton.rxbinding3.view.clicks
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_ranking.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.error
 import java.util.concurrent.TimeUnit
 
 
-class RankingFragment : Fragment(), AnkoLogger {
+class RankingFragment : BaseFragment(), AnkoLogger {
     private lateinit var nickname: String
     private lateinit var score: String
+    private lateinit var listener: Listener
+
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is Listener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement Listener")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        arguments?.apply {
-            nickname = getString("nickname")
-            score = getString("score")
-        }
-        error { "$nickname, $score" }
-
-        val data = mapOf("nickName" to nickname, "answerNum" to score)
-        Api.create().putScore(data)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe({ data ->
-                    context?.let { context ->
-                        tv_my_nickname.text = data.myScore.myNickName
-                        tv_my_rank.text = "${data.myScore.myRank + 1}"
-                        tv_my_answer.text = data.myScore.myAnswerNum.toString()
-                        recycler_view.adapter = RankingAdapter(context, data.top10Score)
-                    }
-                }) {
-                    Log.d(this::class.java.simpleName, it.localizedMessage)
-                }
         return inflater.inflate(R.layout.fragment_ranking, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUi()
+        initData()
+    }
+
+    private fun initUi() {
         changeStatusBarColor()
-        btn_regame.clicks().throttleFirst(1000, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    fragmentManager?.let {
-                        it.beginTransaction().replace(R.id.fragment, GameFragment())
-                                .commitAllowingStateLoss()
-                    }
-                }
+        compositeDisposable.add(btn_regame.clicks()
+                .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
+                .subscribe { listener.goToGameFragment() })
+    }
+
+    private fun initData() {
+        arguments?.apply {
+            nickname = getString("nickname", "")
+            score = getString("score", "0")
+        }
+        getTop10Ranking()
+        getMyRanking()
+    }
+
+    private fun getTop10Ranking() {
+
+    }
+
+    private fun getMyRanking() {
+
     }
 
     private fun changeStatusBarColor() {
@@ -65,5 +72,9 @@ class RankingFragment : Fragment(), AnkoLogger {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = ContextCompat.getColor(context!!, R.color.background)
         }
+    }
+
+    interface Listener {
+        fun goToGameFragment()
     }
 }

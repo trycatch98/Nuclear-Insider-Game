@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/game_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/order_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:fontFamily="@font/notosanscjkkr_bold"
             android:text="Q1."/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/category_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,14 +50,14 @@
             android:background="@drawable/blue_circle"
             android:gravity="center">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/pass_icon"
                 android:background="@color/transparent"
                 android:layout_marginRight="12dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PASS"
@@ -78,7 +78,7 @@
             android:background="@drawable/white_circle"
             android:gravity="center">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hint_img1"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -86,7 +86,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="4dp"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hint_img2"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -94,7 +94,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="4dp"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hint_img3"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -102,7 +102,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="10dp"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/hint_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
             android:background="@drawable/white_circle"
             android:gravity="center">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img1"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
@@ -131,7 +131,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="2.9dp"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img2"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
@@ -139,7 +139,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="2.9dp"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img3"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
@@ -147,7 +147,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="2.9dp"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img4"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
@@ -155,7 +155,7 @@
                 android:background="@color/transparent"
                 android:layout_marginRight="2.9dp"/>
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img5"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
@@ -165,7 +165,7 @@
 
         </LinearLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/question_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
             android:paddingLeft="32dp"
             android:paddingRight="32dp">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/emoji_view"
                 android:layout_width="0dp"
                 android:layout_height="112dp"
@@ -190,7 +190,7 @@
                 android:padding="10dp"
                 android:background="@color/transparent" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/hint_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="12dp">
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hint_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/colorAccent"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hint_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
                     android:textColor="@color/colorAccent"
                     android:visibility="gone"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hint_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -239,11 +239,11 @@
                     android:textColor="@color/colorAccent"
                     android:visibility="gone"/>
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/answer_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -262,9 +262,9 @@
             android:textSize="16sp"
             android:textColor="#959595"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirm_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -276,4 +276,4 @@
         android:textColor="#ffffff"
         android:padding="16dp"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

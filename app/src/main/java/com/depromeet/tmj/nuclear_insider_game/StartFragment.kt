@@ -3,21 +3,20 @@ package com.depromeet.tmj.nuclear_insider_game
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.depromeet.tmj.nuclear_insider_game.shared.BaseFragment
+import com.depromeet.tmj.nuclear_insider_game.shared.THROTTLE_TIME
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_start.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class StartFragment : Fragment() {
-    private val compositeDisposable = CompositeDisposable()
+class StartFragment : BaseFragment() {
     private lateinit var listener: Listener
 
     override fun onAttach(context: Context?) {
@@ -39,25 +38,17 @@ class StartFragment : Fragment() {
         initUi()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        compositeDisposable.clear()
-    }
-
     private fun initUi() {
         compositeDisposable.add(et_nick_name.textChanges()
                 .map { text -> text.length >= 0 }
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { btn_start.isEnabled = it })
 
         compositeDisposable.add(btn_start.clicks()
-                .throttleFirst(1000, TimeUnit.MILLISECONDS)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
                 .subscribe {
                     if (validate(et_nick_name.text.toString())) {
-                        listener.setNicknameAndStartGame(et_nick_name.text.toString())
+                        listener.setNickname(et_nick_name.text.toString())
+                        listener.goToGameFragment()
                     } else {
                         Toast.makeText(context, "올바르지 않은 닉네임 형태입니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -71,6 +62,8 @@ class StartFragment : Fragment() {
     }
 
     interface Listener {
-        fun setNicknameAndStartGame(nickname: String)
+        fun setNickname(nickname: String)
+
+        fun goToGameFragment()
     }
 }

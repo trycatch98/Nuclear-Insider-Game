@@ -1,9 +1,9 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import com.depromeet.tmj.nuclear_insider_game.shared.BaseActivity
 
-class MainActivity : AppCompatActivity(), StartFragment.Listener {
+class MainActivity : BaseActivity(), StartFragment.Listener, RankingFragment.Listener {
     private lateinit var nickname: String
     private lateinit var score: String
 
@@ -14,40 +14,35 @@ class MainActivity : AppCompatActivity(), StartFragment.Listener {
         initUi()
     }
 
-    override fun setNicknameAndStartGame(nickname: String) {
+    override fun setNickname(nickname: String) {
         this.nickname = nickname
+    }
+
+    override fun goToGameFragment() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment,
-                        GameFragment().apply {
-                            arguments = Bundle().apply {
-                                putString("nickname", nickname)
-                            }
-                        }
-                )
-                .commitAllowingStateLoss()
+                .replace(R.id.container, GameFragment()).commitAllowingStateLoss()
     }
 
     private fun initUi() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment, StartFragment())
+        supportFragmentManager.beginTransaction().replace(R.id.container, StartFragment())
                 .commitAllowingStateLoss()
     }
 
     fun gameOver(score: String) {
         this.score = score
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, GameOverDialogFragment()).commit()
+        fragmentTransaction.add(R.id.container, GameOverDialogFragment()).commit()
     }
 
     fun gameFinish(score: String) {
         this.score = score
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, ClearDialogFragment()).commit()
+        fragmentTransaction.add(R.id.container, ClearDialogFragment()).commit()
     }
 
     fun showRanking() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment,
+        fragmentTransaction.add(R.id.container,
                 RankingFragment().apply {
                     arguments = Bundle().apply {
                         putString("nickname", nickname)
