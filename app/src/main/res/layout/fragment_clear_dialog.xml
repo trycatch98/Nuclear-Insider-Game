@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="9dp"
-        android:fontFamily="@font/notosanscjkkr_black"
+        android:fontFamily="@font/notosanscjkkr_bold"
         android:shadowColor="@color/colorAccent"
         android:shadowDx="0"
         android:shadowDy="3"
