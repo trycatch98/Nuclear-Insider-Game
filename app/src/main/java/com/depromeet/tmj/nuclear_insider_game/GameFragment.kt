@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.bumptech.glide.Glide
+import com.depromeet.tmj.nuclear_insider_game.Model.QuizModel
 import com.depromeet.tmj.nuclear_insider_game.shared.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -26,13 +27,13 @@ import java.util.concurrent.TimeUnit
 
 class GameFragment : BaseFragment() {
     private val database = FirebaseDatabase.getInstance()
-    private val quizList = arrayListOf<QuizDataModel>()
+    private val quizList = arrayListOf<QuizModel>()
     private lateinit var hintList: List<String>
     private lateinit var hintTextList: MutableList<AppCompatTextView>
     private lateinit var hintImgList: MutableList<AppCompatImageView>
     private lateinit var heartImgList: MutableList<AppCompatImageView>
     private lateinit var rewardedVideoAd: RewardedVideoAd
-    private lateinit var currentQuiz: QuizDataModel
+    private lateinit var currentQuiz: QuizModel
     private var hintCount = 3
     private var heart = 5
     private var currentQuestion = 0
@@ -86,7 +87,7 @@ class GameFragment : BaseFragment() {
 
     private fun setQuiz() {
         if (quizList.size == 0) {
-            (activity as MainActivity).gameFinish("$currentQuestion")
+            (activity as MainActivity).gameFinish(currentQuestion)
         } else {
             currentQuiz = quizList.removeAt(Random().nextInt(quizList.size))
 
@@ -138,7 +139,7 @@ class GameFragment : BaseFragment() {
                         toast("정답입니다.")
                     } else {
                         if (--heart <= 0) {
-                            (activity as MainActivity).gameOver("$currentQuestion")
+                            (activity as MainActivity).gameOver(currentQuestion)
                         }
                         toast("틀렸습니다.")
                         answer_text.setText("")
@@ -187,7 +188,7 @@ class GameFragment : BaseFragment() {
                 val children = dataSnapshot.children
 
                 children.forEach { snapshot ->
-                    val quiz = snapshot.getValue(QuizDataModel::class.java)
+                    val quiz = snapshot.getValue(QuizModel::class.java)
                     quiz?.let { quizList.add(it) }
                 }
                 initUi()

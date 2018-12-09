@@ -1,6 +1,6 @@
-package com.depromeet.tmj.nuclear_insider_game
+package com.depromeet.tmj.nuclear_insider_game.Model
 
-data class QuizDataModel(
+data class QuizModel(
         val id: Int = 0,
         val solution: String = "",
         val problem: String = "",
