@@ -8,6 +8,7 @@ class RewardAdListener: RewardedVideoAdListener {
 
     override fun onRewardedVideoAdClosed() {
         // 다음 광고 로딩
+        listener?.onRewardedVideoAdClosed()
     }
 
     override fun onRewardedVideoAdLeftApplication() {
@@ -23,6 +24,7 @@ class RewardAdListener: RewardedVideoAdListener {
     }
 
     override fun onRewarded(rewardItem: RewardItem?) {
+        listener?.onRewarded()
     }
 
     override fun onRewardedVideoStarted() {

@@ -7,33 +7,34 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
-import com.depromeet.tmj.nuclear_insider_game.shared.ADMOB_APP_KEY
-import com.depromeet.tmj.nuclear_insider_game.shared.BaseFragment
-import com.depromeet.tmj.nuclear_insider_game.shared.RewardAdListener
-import com.depromeet.tmj.nuclear_insider_game.shared.THROTTLE_TIME
+import com.depromeet.tmj.nuclear_insider_game.shared.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardedVideoAd
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.fragment_game.*
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.yesButton
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class GameFragment : BaseFragment() {
+    private val database = FirebaseDatabase.getInstance()
+    private val quizList = arrayListOf<QuizDataModel>()
     private lateinit var hintList: List<String>
-    private val idArray = mutableListOf<String>()
-    private val hintViewArray = mutableListOf<AppCompatTextView>()
-    private val hintImgArray = mutableListOf<AppCompatImageView>()
+    private lateinit var hintTextList: MutableList<AppCompatTextView>
+    private lateinit var hintImgList: MutableList<AppCompatImageView>
+    private lateinit var heartImgList: MutableList<AppCompatImageView>
+    private lateinit var rewardedVideoAd: RewardedVideoAd
+    private lateinit var currentQuiz: QuizDataModel
     private var hintCount = 3
-    private lateinit var mRewardedVideoAd: RewardedVideoAd
-    private val quizList = mutableListOf<QuizDataModel>()
     private var heart = 5
-    private val heartImgArray = mutableListOf<AppCompatImageView>()
     private var currentQuestion = 0
     private var passCount = 0
 
@@ -44,21 +45,9 @@ class GameFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        hintViewArray.add(hint_text1)
-        hintViewArray.add(hint_text2)
-        hintViewArray.add(hint_text3)
-
-        hintImgArray.add(hint_img1)
-        hintImgArray.add(hint_img2)
-        hintImgArray.add(hint_img3)
-
-        heartImgArray.add(heart_img1)
-        heartImgArray.add(heart_img2)
-        heartImgArray.add(heart_img3)
-        heartImgArray.add(heart_img4)
-        heartImgArray.add(heart_img5)
-
-        initUi()
+        hintTextList = mutableListOf(hint_text1, hint_text2, hint_text3)
+        hintImgList = mutableListOf(hint_img1, hint_img2, hint_img3)
+        heartImgList = mutableListOf(heart_img1, heart_img2, heart_img3, heart_img4, heart_img5)
         getQuiz()
         initAd()
     }
@@ -75,22 +64,51 @@ class GameFragment : BaseFragment() {
             }
 
             override fun onRewarded() {
-                hintViewArray[3 - hintCount].run {
+                hintTextList[3 - hintCount].run {
                     text = hintList[3 - hintCount]
                     visibility = View.VISIBLE
                 }
                 Glide.with(context!!)
                         .load(R.drawable.hint_broken_icon)
-                        .into(hintImgArray[--hintCount])
+                        .into(hintImgList[--hintCount])
             }
         })
-        MobileAds.initialize(context, ADMOB_APP_KEY)
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
-        mRewardedVideoAd.rewardedVideoAdListener = adListener
+
+        if (BuildConfig.DEBUG) {
+            MobileAds.initialize(context, ADMOB_TEST_KEY)
+        } else {
+            MobileAds.initialize(context, ADMOB_APP_KEY)
+        }
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
+        rewardedVideoAd.rewardedVideoAdListener = adListener
         loadRewardedVideoAd()
     }
 
+    private fun setQuiz() {
+        if (quizList.size == 0) {
+            (activity as MainActivity).gameFinish("$currentQuestion")
+        } else {
+            currentQuiz = quizList.removeAt(Random().nextInt(quizList.size))
+
+            category_text.text = currentQuiz.category
+            emoji_view.text = currentQuiz.problem
+            hintList = currentQuiz.hints
+            order_text.text = String.format("Q%d.", currentQuestion + passCount + 1)
+
+            hintCount = 3
+            hintImgList.forEach {
+                Glide.with(context!!)
+                        .load(R.drawable.hint_icon)
+                        .into(it)
+            }
+            hintTextList.forEach {
+                it.visibility = View.GONE
+            }
+        }
+    }
+
     private fun initUi() {
+        setQuiz()
         compositeDisposable.add(hint_btn.clicks()
                 .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
                 .subscribe {
@@ -99,8 +117,8 @@ class GameFragment : BaseFragment() {
                     } else {
                         alert("힌트를 보기 위해서\n광고를 보시겠어요?") {
                             yesButton {
-                                if (mRewardedVideoAd.isLoaded) {
-                                    mRewardedVideoAd.show()
+                                if (rewardedVideoAd.isLoaded) {
+                                    rewardedVideoAd.show()
                                 }
                             }
                             noButton { }
@@ -111,21 +129,22 @@ class GameFragment : BaseFragment() {
 
         compositeDisposable.add(confirm_btn.clicks()
                 .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    if (quizList[currentQuestion + passCount].solution.replace(" ", "") == answer_text.text.toString().replace(" ", "")) {
+                .map { currentQuiz.solution == StringUtils.removeSpace(answer_text.text.toString()) }
+                .subscribe { isRighted ->
+                    if (isRighted) {
                         currentQuestion++
-                        clearHint()
-                        changeQuiz()
+                        setQuiz()
                         answer_text.setText("")
                         toast("정답입니다.")
                     } else {
-                        if (--heart <= 0)
+                        if (--heart <= 0) {
                             (activity as MainActivity).gameOver("$currentQuestion")
+                        }
                         toast("틀렸습니다.")
                         answer_text.setText("")
                         Glide.with(context!!)
                                 .load(R.drawable.heart_broken_icon)
-                                .into(heartImgArray[heart])
+                                .into(heartImgList[heart])
                     }
                 })
 
@@ -133,63 +152,46 @@ class GameFragment : BaseFragment() {
                 .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
                 .subscribe {
                     passCount++
-                    clearHint()
-                    changeQuiz()
+                    setQuiz()
                 })
-    }
-
-    private fun getQuiz() {
-
-    }
-
-
-    private fun clearHint() {
-        hintCount = 3
-        hintImgArray.forEach {
-            Glide.with(context!!)
-                    .load(R.drawable.hint_icon)
-                    .into(it)
-        }
-        hintViewArray.forEach {
-            it.visibility = View.GONE
-        }
-    }
-
-    private fun changeQuiz() {
-        if (currentQuestion + passCount == quizList.size) {
-            getQuiz()
-        } else {
-            order_text.text = "Q${currentQuestion + passCount + 1}."
-            quizList[currentQuestion + passCount].run {
-                category_text.text = category
-                Glide.with(context!!)
-                        .load("https://nuclear-insider-game-server.herokuapp.com//$imagePath")
-                        .apply(RequestOptions()
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true))
-                        .into(emoji_view)
-                hintList = hints
-            }
-        }
     }
 
     override fun onPause() {
         super.onPause()
-        mRewardedVideoAd.pause(context)
+        rewardedVideoAd.pause(context)
     }
 
     override fun onResume() {
         super.onResume()
-        mRewardedVideoAd.resume(context)
+        rewardedVideoAd.resume(context)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mRewardedVideoAd.rewardedVideoAdListener = null
-        mRewardedVideoAd.destroy(context)
+        rewardedVideoAd.rewardedVideoAdListener = null
+        rewardedVideoAd.destroy(context)
     }
 
     private fun loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(ADMOB_APP_KEY, AdRequest.Builder().build())
+        rewardedVideoAd.loadAd(ADMOB_APP_KEY, AdRequest.Builder().build())
+    }
+
+    private fun getQuiz() {
+        val quizReference = database.getReference(SCHEMA_QUIZ)
+
+        quizReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val children = dataSnapshot.children
+
+                children.forEach { snapshot ->
+                    val quiz = snapshot.getValue(QuizDataModel::class.java)
+                    quiz?.let { quizList.add(it) }
+                }
+                initUi()
+            }
+        })
     }
 }

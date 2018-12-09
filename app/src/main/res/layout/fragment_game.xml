@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/game_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/confirm_btn"
         android:layout_marginBottom="22dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toTopOf="@id/confirm_btn">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/order_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="10dp"
-            android:includeFontPadding="false"
-            android:textSize="42sp"
-            android:textColor="@color/colorAccent"
             android:fontFamily="@font/notosanscjkkr_bold"
-            android:text="Q1."/>
+            android:includeFontPadding="false"
+            android:text="Q1."
+            android:textColor="@color/colorAccent"
+            android:textSize="42sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/category_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_text"
-            android:includeFontPadding="false"
-            android:textSize="42sp"
-            android:textColor="@color/colorAccent"
             android:fontFamily="@font/notosanscjkkr_bold"
-            android:text="영화"/>
+            android:includeFontPadding="false"
+            android:text="영화"
+            android:textColor="@color/colorAccent"
+            android:textSize="42sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_text" />
 
         <LinearLayout
             android:id="@+id/pass_view"
             android:layout_width="121dp"
             android:layout_height="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="24dp"
-            android:orientation="horizontal"
             android:background="@drawable/blue_circle"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/pass_icon"
+                android:layout_marginRight="12dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="12dp"/>
+                android:src="@drawable/pass_icon" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:text="PASS"
-                android:textSize="14sp"
                 android:textColor="#ffffff"
-                android:background="@color/transparent"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -71,45 +71,45 @@
             android:id="@+id/ad_view"
             android:layout_width="163dp"
             android:layout_height="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/category_text"
             android:layout_marginTop="47dp"
-            android:orientation="horizontal"
             android:background="@drawable/white_circle"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category_text">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hint_img1"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/hint_icon"
+                android:layout_marginRight="4dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="4dp"/>
+                android:src="@drawable/hint_icon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hint_img2"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/hint_icon"
+                android:layout_marginRight="4dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="4dp"/>
+                android:src="@drawable/hint_icon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/hint_img3"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/hint_icon"
+                android:layout_marginRight="10dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="10dp"/>
+                android:src="@drawable/hint_icon" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/hint_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:text="HINT"
-                android:textSize="14sp"
                 android:textColor="@color/colorAccent"
-                android:background="@color/transparent"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -117,51 +117,51 @@
             android:id="@+id/heart_view"
             android:layout_width="120dp"
             android:layout_height="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ad_view"
-            android:orientation="horizontal"
             android:background="@drawable/white_circle"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ad_view">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img1"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
-                android:src="@drawable/heart_icon"
+                android:layout_marginRight="2.9dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="2.9dp"/>
+                android:src="@drawable/heart_icon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img2"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
-                android:src="@drawable/heart_icon"
+                android:layout_marginRight="2.9dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="2.9dp"/>
+                android:src="@drawable/heart_icon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img3"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
-                android:src="@drawable/heart_icon"
+                android:layout_marginRight="2.9dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="2.9dp"/>
+                android:src="@drawable/heart_icon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img4"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
-                android:src="@drawable/heart_icon"
+                android:layout_marginRight="2.9dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="2.9dp"/>
+                android:src="@drawable/heart_icon" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/heart_img5"
                 android:layout_width="14.4dp"
                 android:layout_height="13.2dp"
-                android:src="@drawable/heart_icon"
+                android:layout_marginRight="2.9dp"
                 android:background="@color/transparent"
-                android:layout_marginRight="2.9dp"/>
+                android:src="@drawable/heart_icon" />
 
         </LinearLayout>
 
@@ -169,75 +169,73 @@
             android:id="@+id/question_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_rectangle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/heart_view"
             android:layout_marginTop="22dp"
+            android:background="@drawable/white_rectangle"
             android:paddingLeft="32dp"
-            android:paddingRight="32dp">
+            android:paddingRight="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/heart_view">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <TextView
                 android:id="@+id/emoji_view"
                 android:layout_width="0dp"
                 android:layout_height="112dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="38dp"
                 android:layout_marginBottom="38dp"
-                android:padding="10dp"
-                android:background="@color/transparent" />
+                android:textAlignment="center"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/hint_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emoji_view"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="6dp"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="12dp"
+                android:background="@color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emoji_view">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hint_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/hint_text2"
-                    android:fontFamily="@font/notosanscjkkr_bold"
                     android:background="@color/transparent"
+                    android:fontFamily="@font/notosanscjkkr_bold"
                     android:includeFontPadding="false"
+                    android:textColor="@color/colorAccent"
                     android:textSize="14sp"
-                    android:textColor="@color/colorAccent"/>
+                    app:layout_constraintEnd_toStartOf="@id/hint_text2"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hint_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/hint_text1"
-                    app:layout_constraintEnd_toEndOf="@id/hint_text3"
-                    android:fontFamily="@font/notosanscjkkr_bold"
                     android:background="@color/transparent"
+                    android:fontFamily="@font/notosanscjkkr_bold"
                     android:includeFontPadding="false"
-                    android:textSize="14sp"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"/>
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/hint_text3"
+                    app:layout_constraintStart_toEndOf="@id/hint_text1" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hint_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/hint_text2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:fontFamily="@font/notosanscjkkr_bold"
                     android:background="@color/transparent"
+                    android:fontFamily="@font/notosanscjkkr_bold"
                     android:includeFontPadding="false"
-                    android:textSize="14sp"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"/>
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/hint_text2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -247,20 +245,20 @@
             android:id="@+id/answer_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/question_view"
             android:layout_marginTop="39dp"
-            android:singleLine="true"
-            android:maxLines="1"
             android:background="@drawable/white_rectangle"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:hint="무엇일까요?"
+            android:maxLines="1"
+            android:paddingLeft="12dp"
+            android:paddingTop="16dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="16dp"
+            android:singleLine="true"
+            android:textColor="#959595"
             android:textSize="16sp"
-            android:textColor="#959595"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/question_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -268,12 +266,12 @@
         android:id="@+id/confirm_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="22dp"
+        android:background="@color/colorAccent"
+        android:padding="16dp"
         android:text="확인"
-        android:textSize="20sp"
         android:textColor="#ffffff"
-        android:padding="16dp"/>
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

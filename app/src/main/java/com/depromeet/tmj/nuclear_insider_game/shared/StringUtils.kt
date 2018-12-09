@@ -5,5 +5,9 @@ class StringUtils {
         fun unicodeToEmoji(unicode: String): String {
             return String(Character.toChars(Integer.parseInt(unicode,16)))
         }
+
+        fun removeSpace(string: String): String {
+            return string.replace(" ", "")
+        }
     }
 }
