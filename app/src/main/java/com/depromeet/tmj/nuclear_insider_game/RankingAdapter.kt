@@ -1,13 +1,14 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.depromeet.tmj.nuclear_insider_game.Model.ScoreModel
 import kotlinx.android.synthetic.main.viewholder_ranking.view.*
 
-class RankingAdapter(val context: Context, val data: List<RankingDataModel.Score>)
+class RankingAdapter(val context: Context, val data: List<ScoreModel>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -30,7 +31,7 @@ class RankingAdapter(val context: Context, val data: List<RankingDataModel.Score
         private val tvNickname = view.tv_nick_name
         private val tvScore = view.tv_answer
 
-        fun bind(data: RankingDataModel.Score, position: Int) {
+        fun bind(data: ScoreModel, position: Int) {
             tvRank.text = (position + 1).toString()
             tvNickname.text = data.nickName
             tvScore.text = data.answerNum.toString()

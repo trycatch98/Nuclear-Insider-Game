@@ -1,10 +1,7 @@
 package com.depromeet.tmj.nuclear_insider_game
 
-import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +33,7 @@ class ClearDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    (activity as MainActivity).showRanking()
+                    (activity as MainActivity).saveMyScore()
                 })
     }
 }

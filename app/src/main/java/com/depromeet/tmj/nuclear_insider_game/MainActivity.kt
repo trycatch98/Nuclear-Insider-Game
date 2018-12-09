@@ -1,11 +1,17 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import com.depromeet.tmj.nuclear_insider_game.Model.ScoreModel
+import com.depromeet.tmj.nuclear_insider_game.shared.ARG_NICKNAME
+import com.depromeet.tmj.nuclear_insider_game.shared.BaseActivity
+import com.depromeet.tmj.nuclear_insider_game.shared.SCHEMA_RANK
+import com.google.firebase.database.FirebaseDatabase
+import org.jetbrains.anko.toast
 
-class MainActivity : AppCompatActivity(), StartFragment.Listener {
+class MainActivity : BaseActivity(), StartFragment.Listener, RankingFragment.Listener {
+    private val database = FirebaseDatabase.getInstance()
     private lateinit var nickname: String
-    private lateinit var score: String
+    private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,46 +20,51 @@ class MainActivity : AppCompatActivity(), StartFragment.Listener {
         initUi()
     }
 
-    override fun setNicknameAndStartGame(nickname: String) {
+    override fun setNickname(nickname: String) {
         this.nickname = nickname
+    }
+
+    override fun goToGameFragment() {
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment,
-                        GameFragment().apply {
-                            arguments = Bundle().apply {
-                                putString("nickname", nickname)
-                            }
-                        }
-                )
-                .commitAllowingStateLoss()
+                .replace(R.id.container, GameFragment()).commitAllowingStateLoss()
     }
 
     private fun initUi() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment, StartFragment())
+        supportFragmentManager.beginTransaction().replace(R.id.container, StartFragment())
                 .commitAllowingStateLoss()
     }
 
-    fun gameOver(score: String) {
+    fun gameOver(score: Int) {
         this.score = score
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, GameOverDialogFragment()).commit()
+        fragmentTransaction.add(R.id.container, GameOverDialogFragment()).commit()
     }
 
-    fun gameFinish(score: String) {
+    fun gameFinish(score: Int) {
         this.score = score
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment, ClearDialogFragment()).commit()
+        fragmentTransaction.add(R.id.container, ClearDialogFragment()).commit()
     }
 
-    fun showRanking() {
+    private fun showRanking() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment,
+
+        fragmentTransaction.add(R.id.container,
                 RankingFragment().apply {
                     arguments = Bundle().apply {
-                        putString("nickname", nickname)
-                        putString("score", score)
+                        putString(ARG_NICKNAME, nickname)
                     }
                 }
         ).commit()
+    }
+
+    fun saveMyScore() {
+        val score = ScoreModel(score, nickname)
+
+        database.getReference(SCHEMA_RANK).push().setValue(score).addOnSuccessListener {
+            showRanking()
+        }.addOnFailureListener {
+            toast("점수 정보 저장에 실패하였습니다.")
+        }
     }
 }
