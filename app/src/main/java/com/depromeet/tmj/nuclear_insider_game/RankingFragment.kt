@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import com.depromeet.tmj.nuclear_insider_game.Model.ScoreModel
+import com.depromeet.tmj.nuclear_insider_game.model.ScoreModel
 import com.depromeet.tmj.nuclear_insider_game.shared.ARG_NICKNAME
 import com.depromeet.tmj.nuclear_insider_game.shared.BaseFragment
 import com.depromeet.tmj.nuclear_insider_game.shared.SCHEMA_RANK

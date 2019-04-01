@@ -1,10 +1,11 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 import android.os.Bundle
-import com.depromeet.tmj.nuclear_insider_game.Model.ScoreModel
+import com.depromeet.tmj.nuclear_insider_game.model.ScoreModel
 import com.depromeet.tmj.nuclear_insider_game.shared.ARG_NICKNAME
 import com.depromeet.tmj.nuclear_insider_game.shared.BaseActivity
 import com.depromeet.tmj.nuclear_insider_game.shared.SCHEMA_RANK
+import com.depromeet.tmj.nuclear_insider_game.util.replace
 import com.google.firebase.database.FirebaseDatabase
 import org.jetbrains.anko.toast
 
@@ -16,8 +17,7 @@ class MainActivity : BaseActivity(), StartFragment.Listener, RankingFragment.Lis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        initUi()
+        goToStartFragment()
     }
 
     override fun setNickname(nickname: String) {
@@ -25,13 +25,13 @@ class MainActivity : BaseActivity(), StartFragment.Listener, RankingFragment.Lis
     }
 
     override fun goToGameFragment() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, GameFragment()).commitAllowingStateLoss()
+        replace(supportFragmentManager, R.id.container,
+                GameFragment(), GameFragment::class.java.simpleName)
     }
 
-    private fun initUi() {
-        supportFragmentManager.beginTransaction().replace(R.id.container, StartFragment())
-                .commitAllowingStateLoss()
+    private fun goToStartFragment() {
+        replace(supportFragmentManager, R.id.container,
+                StartFragment(), StartFragment::class.java.simpleName)
     }
 
     fun gameOver(score: Int) {

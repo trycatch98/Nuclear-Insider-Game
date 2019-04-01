@@ -60,6 +60,11 @@ class StartFragment : BaseFragment() {
         return nickname.length <= 12 && Pattern.matches(validator, nickname)
     }
 
+    private fun goToGameFragment() {
+        fragmentManager?.let { fragmentManager ->
+        }
+    }
+
     interface Listener {
         fun setNickname(nickname: String)
 

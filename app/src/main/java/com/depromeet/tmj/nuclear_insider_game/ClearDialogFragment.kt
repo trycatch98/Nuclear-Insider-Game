@@ -1,17 +1,15 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.depromeet.tmj.nuclear_insider_game.shared.BaseDialogFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 
-class ClearDialogFragment : DialogFragment() {
-    private val compositeDisposable = CompositeDisposable()
+class ClearDialogFragment : BaseDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -21,11 +19,6 @@ class ClearDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        compositeDisposable.clear()
     }
 
     private fun initUi() {

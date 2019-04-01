@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.depromeet.tmj.nuclear_insider_game.Model.ScoreModel
+import com.depromeet.tmj.nuclear_insider_game.model.ScoreModel
 import kotlinx.android.synthetic.main.viewholder_ranking.view.*
 
 class RankingAdapter(val context: Context, val data: List<ScoreModel>)

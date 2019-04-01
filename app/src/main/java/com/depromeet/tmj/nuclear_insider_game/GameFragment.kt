@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.bumptech.glide.Glide
-import com.depromeet.tmj.nuclear_insider_game.Model.QuizModel
+import com.depromeet.tmj.nuclear_insider_game.model.QuizModel
 import com.depromeet.tmj.nuclear_insider_game.shared.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
@@ -25,7 +25,7 @@ import org.jetbrains.anko.yesButton
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class GameFragment : BaseFragment() {
+class GameFragment : BaseFragment(), GameView {
     private val database = FirebaseDatabase.getInstance()
     private val quizList = arrayListOf<QuizModel>()
     private lateinit var hintList: List<String>
@@ -45,12 +45,15 @@ class GameFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         hintTextList = mutableListOf(hint_text1, hint_text2, hint_text3)
         hintImgList = mutableListOf(hint_img1, hint_img2, hint_img3)
         heartImgList = mutableListOf(heart_img1, heart_img2, heart_img3, heart_img4, heart_img5)
         getQuiz()
         initAd()
+    }
+
+    override fun setQuiz(quizList: List<QuizModel>) {
+
     }
 
     /**
@@ -130,7 +133,7 @@ class GameFragment : BaseFragment() {
 
         compositeDisposable.add(confirm_btn.clicks()
                 .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
-                .map { currentQuiz.solution == StringUtils.removeSpace(answer_text.text.toString()) }
+                .map { currentQuiz.solution == removeSpace(answer_text.text.toString()) }
                 .subscribe { isRighted ->
                     if (isRighted) {
                         currentQuestion++
@@ -177,22 +180,7 @@ class GameFragment : BaseFragment() {
         rewardedVideoAd.loadAd(ADMOB_APP_KEY, AdRequest.Builder().build())
     }
 
-    private fun getQuiz() {
-        val quizReference = database.getReference(SCHEMA_QUIZ)
-
-        quizReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val children = dataSnapshot.children
-
-                children.forEach { snapshot ->
-                    val quiz = snapshot.getValue(QuizModel::class.java)
-                    quiz?.let { quizList.add(it) }
-                }
-                initUi()
-            }
-        })
+    companion object {
+        fun new
     }
 }

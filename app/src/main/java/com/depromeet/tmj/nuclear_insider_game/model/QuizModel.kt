@@ -1,4 +1,4 @@
-package com.depromeet.tmj.nuclear_insider_game.Model
+package com.depromeet.tmj.nuclear_insider_game.model
 
 data class QuizModel(
         val id: Int = 0,
