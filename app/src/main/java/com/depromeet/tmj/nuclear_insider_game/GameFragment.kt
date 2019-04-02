@@ -102,11 +102,7 @@ class GameFragment : BaseFragment(), GameView {
             }
         })
 
-        if (BuildConfig.DEBUG) {
-            MobileAds.initialize(context, ADMOB_TEST_KEY)
-        } else {
-            MobileAds.initialize(context, ADMOB_APP_KEY)
-        }
+        MobileAds.initialize(context, ADMOB_APP_ID)
         rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
         rewardedVideoAd.rewardedVideoAdListener = adListener
         loadRewardedVideoAd()
