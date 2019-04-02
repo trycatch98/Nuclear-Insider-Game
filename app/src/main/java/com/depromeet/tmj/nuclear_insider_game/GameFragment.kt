@@ -1,7 +1,6 @@
 package com.depromeet.tmj.nuclear_insider_game
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,18 +13,21 @@ import com.depromeet.tmj.nuclear_insider_game.util.add
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardedVideoAd
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.jakewharton.rxbinding3.view.clicks
+import com.kakao.kakaolink.v2.KakaoLinkResponse
+import com.kakao.kakaolink.v2.KakaoLinkService
+import com.kakao.message.template.ContentObject
+import com.kakao.message.template.FeedTemplate
+import com.kakao.message.template.LinkObject
+import com.kakao.network.ErrorResult
+import com.kakao.network.callback.ResponseCallback
 import kotlinx.android.synthetic.main.fragment_game.*
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.yesButton
-import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class GameFragment : BaseFragment(), GameView {
     private lateinit var hintTextList: MutableList<AppCompatTextView>
@@ -153,6 +155,12 @@ class GameFragment : BaseFragment(), GameView {
                 .subscribe {
                     presenter.pass()
                 })
+
+        compositeDisposable.add(btn_share_kakao.clicks()
+                .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
+                .subscribe {
+                    sendKakaoLink()
+                })
     }
 
     override fun rightAnswer() {
@@ -217,6 +225,31 @@ class GameFragment : BaseFragment(), GameView {
                             putString(ARG_NICKNAME, nickname)
                         }
                     }, RankingFragment::class.java.simpleName)
+        }
+    }
+
+    private fun sendKakaoLink() {
+        // 카카오톡 링크 공유
+        val params = FeedTemplate
+                .newBuilder(ContentObject.newBuilder(
+                        "카테고리 : " + category_text.text.toString(),
+                        "",
+                        LinkObject.newBuilder()
+                                .setWebUrl("https://play.google.com/store/apps/details?id=com.depromeet.tmj.nuclear_insider_game")
+                                .setMobileWebUrl("https://play.google.com/store/apps/details?id=com.depromeet.tmj.nuclear_insider_game").build())
+                        .setDescrption(emoji_view.text.toString() + "\n" + "문제의 정답을 알고싶다면 '뜻밖의 게임'으로 ")
+                        .build())
+                .build()
+        context?.let { context ->
+            KakaoLinkService.getInstance().sendDefault(context, params, object : ResponseCallback<KakaoLinkResponse>() {
+                override fun onSuccess(result: KakaoLinkResponse?) {
+                    toast("퀴즈를 공유합니다.")
+                }
+
+                override fun onFailure(errorResult: ErrorResult?) {
+                    toast(errorResult!!.errorMessage)
+                }
+            })
         }
     }
 
