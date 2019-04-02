@@ -1,17 +1,28 @@
 package com.depromeet.tmj.nuclear_insider_game
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.depromeet.tmj.nuclear_insider_game.shared.BaseDialogFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
-class ClearDialogFragment : DialogFragment() {
-    private val compositeDisposable = CompositeDisposable()
+class ClearDialogFragment : BaseDialogFragment() {
+    private lateinit var listener: Listener
+
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if(context is Listener) {
+            this.listener = context
+        } else {
+            RuntimeException("ClearDialogFragment Listener is not implemented")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -23,9 +34,12 @@ class ClearDialogFragment : DialogFragment() {
         initUi()
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        compositeDisposable.clear()
+    fun setListener(listener: () -> Unit) {
+        this.listener = object: Listener {
+            override fun onDismiss() {
+                listener()
+            }
+        }
     }
 
     private fun initUi() {
@@ -33,7 +47,11 @@ class ClearDialogFragment : DialogFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    (activity as MainActivity).saveMyScore()
+                    listener.onDismiss()
                 })
+    }
+
+    interface Listener {
+        fun onDismiss()
     }
 }
