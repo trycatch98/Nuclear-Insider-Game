@@ -53,7 +53,7 @@ class RankingFragment : BaseFragment(), AnkoLogger {
         changeStatusBarColor()
         compositeDisposable.add(btn_regame.clicks()
                 .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
-                .subscribe { listener.goToGameFragment() })
+                .subscribe { listener.goToStartFragment() })
     }
 
     private fun initData() {
@@ -112,6 +112,6 @@ class RankingFragment : BaseFragment(), AnkoLogger {
     }
 
     interface Listener {
-        fun goToGameFragment()
+        fun goToStartFragment()
     }
 }

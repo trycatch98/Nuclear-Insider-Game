@@ -9,3 +9,10 @@ fun replace(fragmentManager: FragmentManager, container: Int,
             .replace(container, newFragment, tag)
             .commitAllowingStateLoss()
 }
+
+fun add(fragmentManager: FragmentManager, container: Int,
+        newFragment: Fragment, tag: String) {
+    fragmentManager.beginTransaction()
+            .add(container, newFragment, tag)
+            .commitAllowingStateLoss()
+}
