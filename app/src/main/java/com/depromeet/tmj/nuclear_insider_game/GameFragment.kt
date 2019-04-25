@@ -48,8 +48,8 @@ class GameFragment : BaseFragment(), GameView {
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         hintTextList = mutableListOf(hint_text1, hint_text2, hint_text3)
         hintImgList = mutableListOf(hint_img1, hint_img2, hint_img3)
         heartImgList = mutableListOf(heart_img1, heart_img2, heart_img3, heart_img4, heart_img5)
@@ -130,6 +130,10 @@ class GameFragment : BaseFragment(), GameView {
             yesButton {
                 if (rewardedVideoAd.isLoaded) {
                     rewardedVideoAd.show()
+                } else {
+                    toast("광고가 로드되지 않았습니다.")
+                    loadRewardedVideoAd()
+                    presenter.onRewarded()
                 }
             }
             noButton { }
