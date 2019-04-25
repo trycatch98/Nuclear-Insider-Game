@@ -133,6 +133,7 @@ class GameFragment : BaseFragment(), GameView {
                 } else {
                     toast("광고가 로드되지 않았습니다.")
                     loadRewardedVideoAd()
+                    presenter.onRewarded()
                 }
             }
             noButton { }
