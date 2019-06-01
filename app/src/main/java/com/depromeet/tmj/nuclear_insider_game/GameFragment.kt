@@ -76,12 +76,10 @@ class GameFragment : BaseFragment(), GameView {
 
     override fun useHint(hintCount: Int) {
         context?.let { context ->
-            hintTextList[3 - hintCount + 1].run {
-                visibility = View.VISIBLE
-            }
+            hintTextList[3 - hintCount].visibility = View.VISIBLE
             Glide.with(context)
                     .load(R.drawable.hint_broken_icon)
-                    .into(hintImgList[hintCount])
+                    .into(hintImgList[hintCount - 1])
         }
     }
 
