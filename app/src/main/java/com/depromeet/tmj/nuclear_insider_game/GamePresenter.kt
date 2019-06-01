@@ -58,7 +58,7 @@ class GamePresenter(private val view: GameView,
     }
 
     fun onRewarded() {
-        view.useHint(--hintCount)
+        view.useHint(hintCount--)
     }
 
     fun getHint() {
