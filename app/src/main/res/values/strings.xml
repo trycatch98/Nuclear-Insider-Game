@@ -2,6 +2,7 @@
     <string name="app_name">뜻밖의 게임</string>
     <string name="team_name">뜻밖의 마가레뜨 젤루좋아</string>
     <string name="start_title">닉네임을\n입력해주세요</string>
+    <string name="splash_subtitle">핵인싸가 되고 싶은 사람?</string>
     <string name="hint_nick_name">한글 혹은 영문 12자이내로 입력해 주세요.</string>
     <string name="start">시작하기</string>
     <string name="game_over">GAME OVER</string>

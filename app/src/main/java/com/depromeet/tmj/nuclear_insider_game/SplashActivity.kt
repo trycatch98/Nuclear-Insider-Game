@@ -3,12 +3,12 @@ package com.depromeet.tmj.nuclear_insider_game
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_splash.*
-import androidx.core.content.ContextCompat
 import android.view.WindowManager
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import com.depromeet.tmj.nuclear_insider_game.shared.BaseActivity
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.concurrent.TimeUnit
 
 
 class SplashActivity : BaseActivity() {
@@ -23,20 +23,9 @@ class SplashActivity : BaseActivity() {
         changeStatusBarColor()
         tv_team_name.paintFlags += Paint.UNDERLINE_TEXT_FLAG
 
-        val anim = AnimationUtils.loadAnimation(this, R.anim.anim_fade_in_trans_down)
-
-        anim.setAnimationListener(object: Animation.AnimationListener{
-            override fun onAnimationRepeat(p0: Animation?) {
-            }
-
-            override fun onAnimationEnd(p0: Animation?) {
-                goToMain()
-            }
-
-            override fun onAnimationStart(p0: Animation?) {
-            }
-        })
-        tv_title.startAnimation(anim)
+        compositeDisposable.add(Observable.just(0)
+                .delay(2000, TimeUnit.MILLISECONDS)
+                .subscribe { goToMain() })
     }
 
     private fun goToMain() {
