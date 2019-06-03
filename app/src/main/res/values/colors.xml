@@ -3,10 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#0336ff</color>
-    <color name="background">#ffde03</color>
+    <color name="disable">#787c7e</color>
+    <color name="background">#f8f8f2</color>
+    <color name="background_yellow">#ffde03</color>
     <color name="white">#ffffff</color>
     <color name="over_background">#cc000000</color>
     <color name="clear_background">#ccffde03</color>
     <color name="transparent">#00000000</color>
-    <color name="black_text">#333333</color>
+    <color name="black_text">#2b2f31</color>
 </resources>

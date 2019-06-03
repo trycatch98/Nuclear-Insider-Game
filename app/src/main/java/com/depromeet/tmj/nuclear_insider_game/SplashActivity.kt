@@ -38,6 +38,6 @@ class SplashActivity : BaseActivity() {
         val window = window
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.background_yellow)
     }
 }

@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="android:buttonStyle">@style/NoShadowButton</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="NoShadowButton" parent="android:style/Widget.Button">

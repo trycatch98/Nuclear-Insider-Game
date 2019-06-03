@@ -1,56 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".StartFragment">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="123dp"
-        android:fontFamily="@font/notosanscjkkr_bold"
-        android:text="@string/start_title"
-        android:textColor="@color/colorAccent"
-        android:textSize="42sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/et_nick_name"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="67dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/shape_rect_white_bg_9r"
-        android:hint="@string/hint_nick_name"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:paddingStart="11dp"
-        android:textCursorDrawable="@drawable/shape_cursor"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/shape_rect_blue_bg_30dp"
-        android:text="@string/start"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_nick_name" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                tools:context=".StartFragment">
+
+                <ImageView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="87dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="87dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/app_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/start_title"
+                    android:textColor="@color/black_text"
+                    android:textSize="21sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+
+                <EditText
+                    android:id="@+id/et_nick_name"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:hint="@string/hint_nick_name"
+                    android:maxLines="1"
+                    android:paddingStart="11dp"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@drawable/shape_cursor"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+                <Button
+                    android:id="@+id/btn_start"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/selector_blue_button"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/start"
+                    android:textColor="@color/white"
+                    android:textSize="21sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_nick_name" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
