@@ -16,7 +16,7 @@
         android:fontFamily="@font/notosanscjkkr_bold"
         android:includeFontPadding="false"
         android:text="@string/ranking_title"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/black_text"
         android:textSize="42sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +83,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/background_yellow"
         android:layout_marginBottom="18dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_regame">
@@ -127,6 +130,7 @@
         android:id="@+id/btn_regame"
         android:layout_width="0dp"
         android:layout_height="60dp"
+        android:fontFamily="@font/notosanscjkkr_bold"
         android:background="@color/colorAccent"
         android:text="@string/regame"
         android:textColor="@color/white"
