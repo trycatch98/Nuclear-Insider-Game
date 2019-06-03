@@ -22,7 +22,7 @@
             android:fontFamily="@font/notosanscjkkr_bold"
             android:includeFontPadding="false"
             android:text="Q1."
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/black_text"
             android:textSize="42sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:fontFamily="@font/notosanscjkkr_bold"
             android:includeFontPadding="false"
             android:text="영화"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/black_text"
             android:textSize="42sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_text" />
@@ -61,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
+                android:fontFamily="@font/notosanscjkkr_bold"
                 android:text="PASS"
                 android:textColor="#ffffff"
                 android:textSize="14sp" />
@@ -75,7 +76,7 @@
             android:background="@drawable/white_circle"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/pass_view"
             app:layout_constraintTop_toBottomOf="@id/category_text">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -131,7 +132,7 @@
             android:background="@drawable/white_circle"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/ad_view">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -217,7 +218,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/notosanscjkkr_bold"
                     android:includeFontPadding="false"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/black_text"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@id/hint_text2"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -229,7 +230,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/notosanscjkkr_bold"
                     android:includeFontPadding="false"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/black_text"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@id/hint_text3"
                     app:layout_constraintStart_toEndOf="@id/hint_text1" />
@@ -241,7 +242,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/notosanscjkkr_bold"
                     android:includeFontPadding="false"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/black_text"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/hint_text2" />
@@ -255,8 +256,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="39dp"
-            android:background="@drawable/white_rectangle"
-            android:hint="무엇일까요?"
+            android:hint="정답은? 한글로 써 주세요:)"
             android:maxLines="1"
             android:paddingLeft="12dp"
             android:paddingTop="16dp"
