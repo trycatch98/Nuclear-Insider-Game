@@ -5,15 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.depromeet.tmj.nuclear_insider_game.shared.BaseFragment
 import com.depromeet.tmj.nuclear_insider_game.shared.THROTTLE_TIME
+import com.depromeet.tmj.nuclear_insider_game.util.hideKeyboard
 import com.depromeet.tmj.nuclear_insider_game.util.replace
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_start.*
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
+
 
 class StartFragment : BaseFragment() {
 
@@ -24,12 +27,18 @@ class StartFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        changeStatusBarColor()
         initUi()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.let { hideKeyboard(it) }
     }
 
     private fun initUi() {
         compositeDisposable.add(et_nick_name.textChanges()
-                .map { text -> text.length >= 0 }
+                .map { text -> text.isNotEmpty() }
                 .subscribe { btn_start.isEnabled = it })
 
         compositeDisposable.add(btn_start.clicks()
@@ -44,15 +53,22 @@ class StartFragment : BaseFragment() {
     }
 
     private fun validate(nickname: String): Boolean {
-        val validator = "^[가-힣a-zA-Z]+\$"
-
-        return nickname.length <= 12 && Pattern.matches(validator, nickname)
+        return nickname.length <= 12
     }
 
     private fun goToGameFragment(name: String) {
         fragmentManager?.let { fragmentManager ->
             replace(fragmentManager, R.id.container,
                     GameFragment.newInstance(name), GameFragment::class.java.simpleName)
+        }
+    }
+
+    private fun changeStatusBarColor() {
+        activity?.run {
+            val window = window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.background)
         }
     }
 }
